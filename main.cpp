@@ -1,14 +1,12 @@
 
 #include <iostream>
-#include "robot.h"
+#include "map.h"
 
 int main(){
-  std::cout << "Hello World!\n";
+  GeneticThings::Map *map = new GeneticThings::Map(50,8);
 
-  Robot robot(20);
+  map->printMap();
 
-  for (int i = 0; i<10;i++) {
-    robot.execute_action();
-  }
+  delete map;
   return 0;
 }

@@ -21,9 +21,9 @@ namespace GeneticThings {
     protected:
         int x;
         int y;
-        ObjectType type;
         Map *map;
     public:
+        ObjectType type;
         MapObject();
         MapObject(int x, int y, Map* map, ObjectType type = EMPTY);
         ~MapObject();

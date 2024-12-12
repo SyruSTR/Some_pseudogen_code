@@ -19,7 +19,7 @@ namespace GeneticThings {
         Map(int width, int height);
         bool isWall(int x, int y);
         bool isRobot(int x, int y);
-        void printMap();
+        void printMap() const;
         ~Map();
     };
 }
