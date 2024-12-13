@@ -3,6 +3,8 @@
 //
 
 #include "mapObject.h"
+
+#include <iostream>
 using namespace GeneticThings;
 
 GeneticThings::MapObject::MapObject() {
@@ -13,5 +15,10 @@ GeneticThings::MapObject::MapObject() {
 }
 
 GeneticThings::MapObject::MapObject(int x, int y, Map *map, ObjectType type) : x(x), y(y), map(map), type(type){}
+
+void MapObject::info() {
+    std::cout << "x -> " << x << std::endl;
+    std::cout << "y -> " << y << std::endl;
+}
 
 GeneticThings::MapObject::~MapObject(){}

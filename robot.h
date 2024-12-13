@@ -27,6 +27,7 @@ namespace GeneticThings {
   public:
     Robot(int x, int y, Map *map, int id);
 
+    void move(int x, int y);
     void execute_action();
 
     ~Robot();

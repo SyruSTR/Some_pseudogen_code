@@ -20,13 +20,16 @@ namespace GeneticThings {
 
     class MapObject {
     protected:
-        int x;
-        int y;
         Map *map;
     public:
+        int x;
+        int y;
+
         ObjectType type;
         MapObject();
         MapObject(int x, int y, Map* map, ObjectType type = EMPTY);
+
+        void info();
         ~MapObject();
 
         MapObject &operator=(Robot * robot);

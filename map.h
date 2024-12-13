@@ -10,6 +10,7 @@
 namespace GeneticThings {
 
     class MapObject;
+    class Robot;
 
     class Map {
     private:
@@ -17,10 +18,11 @@ namespace GeneticThings {
         MapObject ***map{};
     public:
         Map(int width, int height);
+        Robot* addRobot_at_random_place();
         bool isWall(int x, int y);
         bool isRobot(int x, int y);
-        void addRobot_at_random_place();
         void printMap() const;
+        void swapObjects(int x1, int y1, int x2, int y2);
         ~Map();
     };
 }
