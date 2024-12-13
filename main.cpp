@@ -6,7 +6,7 @@
 #include "robot.h"
 
 int main(){
-  GeneticThings::Map *map = new GeneticThings::Map(50,8);
+  GeneticThings::Map *map = new GeneticThings::Map(8,50);
 
   auto test_robot = map->addRobot_at_random_place();
   map->printMap();

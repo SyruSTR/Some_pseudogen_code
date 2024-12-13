@@ -82,9 +82,9 @@ namespace GeneticThings {
 
 
     void Map::printMap() const {
-        for (int i = 0; i < height; ++i) {
-            for (int j = 0; j < width; ++j) {
-                switch (map[i][j]->type) {
+        for (int i = 0; i < width; ++i) {
+            for (int j = 0; j < height; ++j) {
+                switch (map[j][i]->type) {
                     case EMPTY:
                         printf("  ");
                         break;
