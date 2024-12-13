@@ -16,6 +16,7 @@ namespace GeneticThings {
       };
 
     class Map;
+    class Robot;
 
     class MapObject {
     protected:
@@ -27,6 +28,8 @@ namespace GeneticThings {
         MapObject();
         MapObject(int x, int y, Map* map, ObjectType type = EMPTY);
         ~MapObject();
+
+        MapObject &operator=(Robot * robot);
     };
 }
 

@@ -14,11 +14,12 @@ namespace GeneticThings {
     class Map {
     private:
         int width, height;
-        MapObject **map{};
+        MapObject ***map{};
     public:
         Map(int width, int height);
         bool isWall(int x, int y);
         bool isRobot(int x, int y);
+        void addRobot_at_random_place();
         void printMap() const;
         ~Map();
     };

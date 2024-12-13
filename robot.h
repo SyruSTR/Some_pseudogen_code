@@ -5,9 +5,13 @@
 #ifndef ROBOT_H
 #define ROBOT_H
 
+#include "mapObject.h"
+#include "map.h"
+
 #define GEN_LENGHT 8
 
-class Robot {
+namespace GeneticThings {
+  class Robot : public MapObject {
   private:
     int id;
 
@@ -21,11 +25,12 @@ class Robot {
     //other trash gen
     short int gen [GEN_LENGHT];
   public:
-    Robot(int id);
+    Robot(int x, int y, Map *map, int id);
 
     void execute_action();
 
     ~Robot();
-};
+  };
+}
 
 #endif //ROBOT_H
