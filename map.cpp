@@ -46,15 +46,27 @@ namespace GeneticThings {
         }
     }
 
-    Robot* Map::addRobot_at_random_place() {
+    Robot* Map::addRobot_at_random_place(int id) {
 
-        int new_x = rand() % (this->height-1) + 1;
-        int new_y = rand() % (this->width-1) + 1;
+        int index = this->height * this->width;
+        do {
+            int new_x = rand() % (this->height-1) + 1;
+            int new_y = rand() % (this->width-1) + 1;
 
-        delete this->map[new_x][new_y];
-        const auto robot = new Robot(new_x, new_y, this, 0);
-        this->map[new_x][new_y] = robot;
-        return robot;
+            if (map[new_x][new_y]->type == WALL || map[new_x][new_y]->type == ROBOT) {
+                index--;
+                continue;
+            }
+
+            delete this->map[new_x][new_y];
+            const auto robot = new Robot(new_x, new_y, this, id);
+            this->map[new_x][new_y] = robot;
+            return robot;
+
+        } while (index >= 0);
+
+
+        return nullptr;
     }
 
     bool Map::isWall(int x, int y) {

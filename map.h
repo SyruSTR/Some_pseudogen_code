@@ -18,7 +18,7 @@ namespace GeneticThings {
         MapObject ***map{};
     public:
         Map(int width, int height);
-        Robot* addRobot_at_random_place();
+        Robot* addRobot_at_random_place(int id);
         bool isWall(int x, int y);
         bool isRobot(int x, int y);
         void printMap() const;
