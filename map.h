@@ -30,7 +30,7 @@ namespace GeneticThings {
         /**
          * @brief grid of objects represents like array[][]
          */
-        MapObject ***map{};
+        MapObject ***grid{};
     public:
         /**
          *

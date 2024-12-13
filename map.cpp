@@ -21,16 +21,16 @@ namespace GeneticThings {
         this->width = width;
         this->height = height;
 
-        map = new MapObject**[height];
+        grid = new MapObject**[height];
 
         for (int i = 0; i < height; ++i) {
-            map[i] = new MapObject*[width];
+            grid[i] = new MapObject*[width];
         }
 
         //filling the map off EMPTY space
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
-                map[i][j] = new MapObject(i, j, this);
+                grid[i][j] = new MapObject(i, j, this);
             }
         }
 
@@ -39,7 +39,7 @@ namespace GeneticThings {
             for (int j = 0; j < width; ++j) {
                 if (i == 0 || i == height - 1 || j == 0 || j == width - 1) {
                     auto tmp = new MapObject(i, j, this, WALL);
-                    std::swap(map[i][j], tmp);
+                    std::swap(grid[i][j], tmp);
                     delete tmp;
                 }
             }
@@ -53,14 +53,14 @@ namespace GeneticThings {
             int new_x = rand() % (this->height-1) + 1;
             int new_y = rand() % (this->width-1) + 1;
 
-            if (map[new_x][new_y]->type == WALL || map[new_x][new_y]->type == ROBOT) {
+            if (grid[new_x][new_y]->type == WALL || grid[new_x][new_y]->type == ROBOT) {
                 index--;
                 continue;
             }
 
-            delete this->map[new_x][new_y];
+            delete this->grid[new_x][new_y];
             const auto robot = new Robot(new_x, new_y, this, id);
-            this->map[new_x][new_y] = robot;
+            this->grid[new_x][new_y] = robot;
             return robot;
 
         } while (index >= 0);
@@ -70,7 +70,7 @@ namespace GeneticThings {
     }
 
     bool Map::isWall(int x, int y) {
-        return map[x][y]->type == WALL;
+        return grid[x][y]->type == WALL;
     }
 
     void Map::swapObjects(int x1, int y1, int x2, int y2) {
@@ -80,14 +80,14 @@ namespace GeneticThings {
             return;
         }
 
-        MapObject* temp = map[x1][y1];
-        map[x1][y1] = map[x2][y2];
-        map[x1][y1]->x = x1;
-        map[x1][y1]->y = y1;
+        MapObject* temp = grid[x1][y1];
+        grid[x1][y1] = grid[x2][y2];
+        grid[x1][y1]->x = x1;
+        grid[x1][y1]->y = y1;
 
-        map[x2][y2] = temp;
-        map[x2][y2]->x = x2;
-        map[x2][y2]->y = y2;
+        grid[x2][y2] = temp;
+        grid[x2][y2]->x = x2;
+        grid[x2][y2]->y = y2;
 
     }
 
@@ -96,7 +96,7 @@ namespace GeneticThings {
     void Map::printMap() const {
         for (int i = 0; i < width; ++i) {
             for (int j = 0; j < height; ++j) {
-                switch (map[j][i]->type) {
+                switch (grid[j][i]->type) {
                     case EMPTY:
                         printf("  ");
                         break;
@@ -120,11 +120,11 @@ namespace GeneticThings {
     Map::~Map() {
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
-                delete map[i][j];
+                delete grid[i][j];
             }
-            delete[] map[i];
+            delete[] grid[i];
         }
-        delete[] map;
+        delete[] grid;
     }
 
 }  // namespace GeneticThings
