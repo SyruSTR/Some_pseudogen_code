@@ -86,19 +86,19 @@ namespace GeneticThings {
             for (int j = 0; j < width; ++j) {
                 switch (map[i][j]->type) {
                     case EMPTY:
-                        printf(" ");
+                        printf("  ");
                         break;
                     case WALL:
-                        printf("#");
+                        printf("# ");
                         break;
                     case ROBOT:
-                        printf("@");
+                        printf("@ ");
                         break;
                     case FOOD:
-                        printf("*");
+                        printf("* ");
                         break;
                     default:
-                        printf(" ");
+                        printf("^ ");
                 }
             }
             printf("\n");
