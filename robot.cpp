@@ -27,9 +27,13 @@ namespace GeneticThings {
 
     void Robot::execute_action(){
 
+        //0-3 move left
         IF_INERVAL(gen[current_state],0,3){move(x+1,y);}
+        //4-7 move right
         IF_INERVAL(gen[current_state],4,7){move(x-1,y);}
+        //8-11 move up
         IF_INERVAL(gen[current_state],8,11){move(x,y+1);}
+        //12-15 move down
         IF_INERVAL(gen[current_state],12,15){move(x,y-1);}
         current_state = ++current_state % GEN_LENGHT;
     }
