@@ -1,5 +1,5 @@
-add hungry
-add hp
++ add hp
+add robot death
 add new actions
     look at
         jump based on what robot see

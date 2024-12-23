@@ -10,6 +10,7 @@ namespace GeneticThings {
         for (int i =0; i<GEN_LENGHT;i++) {
             gen[i] = rand() % MAX_GEN;
         }
+        this->hp = START_HP;
     }
 
     Robot::~Robot() {
@@ -36,5 +37,10 @@ namespace GeneticThings {
         //12-15 move down
         IF_INERVAL(gen[current_state],12,15){move(x,y-1);}
         current_state = ++current_state % GEN_LENGHT;
+
+        if (--hp <= 0) {
+            //TODO implement die()
+            die();
+        }
     }
 }

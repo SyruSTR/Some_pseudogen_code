@@ -11,7 +11,7 @@ int main(){
 
   std::vector<GeneticThings::Robot*> robots;
 
-  for (int i = 0; i < 1; i++) {
+  for (int i = 0; i < 10; i++) {
     auto test_robot = map->addRobot_at_random_place(i);
     if (!test_robot)
       break;
