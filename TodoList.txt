@@ -1,0 +1,15 @@
+add hungry
+add hp
+add new actions
+    look at
+        jump based on what robot see
+    kick at
+    eat
+    rotate?
+    jump for non-programmable number
+
+gen-mutation
+
+starting new iteration
+
+get stats about iterations
