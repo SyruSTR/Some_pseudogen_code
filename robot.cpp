@@ -8,7 +8,7 @@ namespace GeneticThings {
         this->id = id;
         std::cout << "Robot " << id << " created" << std::endl;
         for (int i =0; i<GEN_LENGHT;i++) {
-            gen[i] = i*2;
+            gen[i] = rand() % MAX_GEN;
         }
     }
 

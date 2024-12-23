@@ -9,6 +9,7 @@
 #include "map.h"
 
 #define GEN_LENGHT 8
+#define MAX_GEN 64
 
 namespace GeneticThings {
   class Robot : public MapObject {
