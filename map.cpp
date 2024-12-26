@@ -91,26 +91,42 @@ namespace GeneticThings {
 
     }
 
+    MapObject* Map::get_object(int x, int y) {
+        if (x < 0 || y < 0 || x >= height || y >= width ) return nullptr;
+
+        return grid[x][y];
+
+    }
+
+    void Map::delete_object(int x, int y) {
+        if (x < 0 || y < 0 || x >= height || y >= width) return;
+        MapObject* empty_space = new MapObject(x, y, this);
+        std::swap(grid[x][y], empty_space);
+        delete empty_space;
+    }
 
 
     void Map::printMap() const {
         for (int i = 0; i < width; ++i) {
             for (int j = 0; j < height; ++j) {
-                switch (grid[j][i]->type) {
-                    case EMPTY:
-                        printf("  ");
+                //just for safe from SIGSEGV
+                if (grid[j][i] != nullptr) {
+                    switch (grid[j][i]->type) {
+                        case EMPTY:
+                            printf("  ");
                         break;
-                    case WALL:
-                        printf("# ");
+                        case WALL:
+                            printf("# ");
                         break;
-                    case ROBOT:
-                        printf("@ ");
+                        case ROBOT:
+                            printf("@ ");
                         break;
-                    case FOOD:
-                        printf("* ");
+                        case FOOD:
+                            printf("* ");
                         break;
-                    default:
-                        printf("^ ");
+                        default:
+                            printf("^ ");
+                    }
                 }
             }
             printf("\n");

@@ -2,8 +2,9 @@
 // Created by grusted on 12/23/24.
 //
 
-#include <stdio.h>
 #include <iostream>
+#include <vector>
+#include "mapObject.h"
 
 #ifndef SIMULATIONCONTROLLER_H
 #define SIMULATIONCONTROLLER_H
@@ -15,9 +16,10 @@ class SimulationController {
     std::vector<GeneticThings::Robot*> robots;
 
     public:
-      SimulationController();
-      ~SimulationController();
-      void startSimulation();
+        SimulationController();
+        ~SimulationController();
+        void startSimulation();
+        void deleteDeadRobots();
 };
 
 

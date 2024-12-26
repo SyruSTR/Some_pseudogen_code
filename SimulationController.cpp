@@ -4,6 +4,11 @@
 
 #include "SimulationController.h"
 
+#include <algorithm>
+#include <unistd.h>
+
+#include "robot.h"
+
 SimulationController::SimulationController(){
   std::cout << "Simulation controller created" << std::endl;
 
@@ -17,6 +22,26 @@ SimulationController::SimulationController(){
 
   }
 }
+
+void SimulationController::deleteDeadRobots(){
+  if (map) {
+    //delete robot from system
+    robots.erase(std::remove_if(robots.begin(),robots.end(),
+      [this](GeneticThings::Robot* search_robot){
+        if (!search_robot->is_alive()) {
+          //delete robot from grid
+          map->delete_object(search_robot->x,search_robot->y);
+          return true;
+        }
+        return false;
+      }),
+      robots.end());
+
+    //todo Maybe replace to the food
+  }
+}
+
+
 void SimulationController::startSimulation(){
 
   map->printMap();
@@ -25,6 +50,7 @@ void SimulationController::startSimulation(){
     for (int j = 0; j < robots.size(); j++) {
       robots[j]->execute_action();
     }
+    deleteDeadRobots();
     sleep(1);
     map->printMap();
   }

@@ -10,4 +10,6 @@ add_executable(Some_pseudogen_kod
     map.cpp
     map.h
     mapObject.cpp
-    mapObject.h)
+    mapObject.h
+    SimulationController.cpp
+    SimulationController.h)

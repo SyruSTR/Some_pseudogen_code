@@ -11,11 +11,26 @@ namespace GeneticThings {
             gen[i] = rand() % MAX_GEN;
         }
         this->hp = START_HP;
+        this->isAlive = true;
+    }
+
+    bool Robot::is_alive() {
+        return isAlive;
     }
 
     Robot::~Robot() {
         std::cout << "Robot " << id << " destroyed" << std::endl;
     }
+
+    int Robot::get_id() {
+        return id;
+    }
+
+
+    void Robot::die() {
+        isAlive = false;
+    }
+
 
     void Robot::move(int x, int y) {
         if (map->isWall(x,y))
@@ -39,7 +54,6 @@ namespace GeneticThings {
         current_state = ++current_state % GEN_LENGHT;
 
         if (--hp <= 0) {
-            //TODO implement die()
             die();
         }
     }

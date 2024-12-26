@@ -6,6 +6,7 @@
 #define MAPOBJECT_H
 
 #include "map.h"
+#include "SimulationController.h"
 
 namespace GeneticThings {
     enum ObjectType {
@@ -21,16 +22,17 @@ namespace GeneticThings {
     class MapObject {
     protected:
         Map *map;
+        SimulationController *sim;
     public:
         int x;
         int y;
 
         ObjectType type;
         MapObject();
-        MapObject(int x, int y, Map* map, ObjectType type = EMPTY);
+        MapObject(int x, int y, Map *map, ObjectType type = EMPTY);
 
         void info();
-        ~MapObject();
+        virtual ~MapObject();
 
         MapObject &operator=(Robot * robot);
     };

@@ -83,6 +83,8 @@ namespace GeneticThings {
          * @brief swap 2 @see MapObject (objects may be .....)
          */
         void swapObjects(int x1, int y1, int x2, int y2);
+        MapObject* get_object(int x, int y);
+        void delete_object(int x, int y);
         ~Map();
     };
 }

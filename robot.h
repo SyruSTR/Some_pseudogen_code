@@ -24,12 +24,15 @@ namespace GeneticThings {
     short int gen [GEN_LENGHT];
 
     int hp;
+    bool isAlive;
 
     void die();
   public:
     Robot(int x, int y, Map *map, int id);
 
     void move(int x, int y);
+    int get_id();
+    bool is_alive();
     void execute_action();
 
     ~Robot();
