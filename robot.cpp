@@ -33,9 +33,16 @@ namespace GeneticThings {
 
 
     void Robot::move(int x, int y) {
-        if (map->isWall(x,y))
-            return;
-        //todo if isRobot
+        switch (map->getObjectType(x,y)) {
+            case WALL:
+            case ROBOT:
+                return;
+            case FOOD:
+                //todo eat
+                break;
+            default:
+                break;
+        }
 
         map->swapObjects(this->x,this->y,x,y);
     }

@@ -73,6 +73,10 @@ namespace GeneticThings {
         return grid[x][y]->type == WALL;
     }
 
+    ObjectType Map::getObjectType(int x, int y) {
+        return grid[x][y]->type;
+    }
+
     void Map::swapObjects(int x1, int y1, int x2, int y2) {
         if (x1 < 0 || x1 >= height || y1 < 0 || y1 >= width ||
         x2 < 0 || x2 >= height || y2 < 0 || y2 >= width) {

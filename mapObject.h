@@ -9,12 +9,6 @@
 #include "SimulationController.h"
 
 namespace GeneticThings {
-    enum ObjectType {
-        EMPTY,
-        WALL,
-        ROBOT,
-        FOOD
-      };
 
     class Map;
     class Robot;
