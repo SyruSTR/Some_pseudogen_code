@@ -21,25 +21,25 @@ namespace GeneticThings {
         this->width = width;
         this->height = height;
 
-        grid = new MapObject**[height];
+        grid = new MapObject**[width];
 
-        for (int i = 0; i < height; ++i) {
-            grid[i] = new MapObject*[width];
+        for (int x = 0; x < width; ++x) {
+            grid[x] = new MapObject*[height];
         }
 
         //filling the map off EMPTY space
-        for (int i = 0; i < height; ++i) {
-            for (int j = 0; j < width; ++j) {
-                grid[i][j] = new MapObject(i, j, this);
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                grid[x][y] = new MapObject(x, y, this);
             }
         }
 
         //add borders for map
-        for (int i = 0; i < height; ++i) {
-            for (int j = 0; j < width; ++j) {
-                if (i == 0 || i == height - 1 || j == 0 || j == width - 1) {
-                    auto tmp = new MapObject(i, j, this, WALL);
-                    std::swap(grid[i][j], tmp);
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                if (y == 0 || y == height - 1 || x == 0 || x == width - 1) {
+                    auto tmp = new MapObject(x, y, this, WALL);
+                    std::swap(grid[x][y], tmp);
                     delete tmp;
                 }
             }
@@ -50,17 +50,17 @@ namespace GeneticThings {
 
         int index = this->height * this->width;
         do {
-            int new_x = rand() % (this->height-1) + 1;
-            int new_y = rand() % (this->width-1) + 1;
+            int y = rand() % (this->height-1) + 1;
+            int x = rand() % (this->width-1) + 1;
 
-            if (grid[new_x][new_y]->type == WALL || grid[new_x][new_y]->type == ROBOT) {
+            if (grid[x][y]->type == WALL || grid[x][y]->type == ROBOT) {
                 index--;
                 continue;
             }
 
-            delete this->grid[new_x][new_y];
-            const auto robot = new Robot(new_x, new_y, this, id);
-            this->grid[new_x][new_y] = robot;
+            delete this->grid[x][y];
+            const auto robot = new Robot(x, y, this, id);
+            this->grid[x][y] = robot;
             return robot;
 
         } while (index >= 0);
@@ -78,8 +78,8 @@ namespace GeneticThings {
     }
 
     void Map::swapObjects(int x1, int y1, int x2, int y2) {
-        if (x1 < 0 || x1 >= height || y1 < 0 || y1 >= width ||
-        x2 < 0 || x2 >= height || y2 < 0 || y2 >= width) {
+        if (x1 < 0 || x1 >= width || y1 < 0 || y1 >= height ||
+        x2 < 0 || x2 >= width || y2 < 0 || y2 >= height) {
             std::cerr << "Error: Swap coordinates out of bounds!" << std::endl;
             return;
         }
@@ -111,11 +111,11 @@ namespace GeneticThings {
 
 
     void Map::printMap() const {
-        for (int i = 0; i < width; ++i) {
-            for (int j = 0; j < height; ++j) {
+        for (int y = height-1; y >= 0; --y) {
+            for (int x = 0; x < width; ++x) {
                 //just for safe from SIGSEGV
-                if (grid[j][i] != nullptr) {
-                    switch (grid[j][i]->type) {
+                if (grid[x][y] != nullptr) {
+                    switch (grid[x][y]->type) {
                         case EMPTY:
                             printf("  ");
                         break;
@@ -138,8 +138,8 @@ namespace GeneticThings {
     }
 
     Map::~Map() {
-        for (int i = 0; i < height; ++i) {
-            for (int j = 0; j < width; ++j) {
+        for (int i = 0; i < width; ++i) {
+            for (int j = 0; j < height; ++j) {
                 delete grid[i][j];
             }
             delete[] grid[i];
