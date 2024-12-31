@@ -8,7 +8,7 @@ namespace GeneticThings {
         this->id = id;
         std::cout << "Robot " << id << " created" << std::endl;
         for (int i =0; i<GEN_LENGHT;i++) {
-            gen[i] = rand() % 1;
+            gen[i] = rand() % GEN_LENGHT;
         }
         this->hp = START_HP;
         this->isAlive = true;
@@ -65,6 +65,25 @@ namespace GeneticThings {
         if (direction == 2) return this->y - 1;
     }
 
+    int Robot::lookAt(const int direction) {
+        int const check_x = robotXToVector(direction);
+        int const check_y = robotYToVector(direction);
+
+        switch (map->getObjectType(check_x,check_y)) {
+            case WALL:
+                return WALL_JUMP;
+            case FOOD:
+                return FOOD_JUMP;
+            case ROBOT:
+                return ROBOT_JUMP;
+            case EMPTY:
+                return EMPTY_JUMP;
+            default:
+                return 0;
+        }
+    }
+
+
 
 
     void Robot::execute_action(){
@@ -72,8 +91,19 @@ namespace GeneticThings {
 
         int actual_gen = gen[current_state];
         //0-3 move
-        IF_INERVAL(actual_gen,0,3){move(actual_gen);}
-        current_state = ++current_state % GEN_LENGHT;
+        IF_INERVAL(actual_gen,0,3) {
+            move(actual_gen);
+            current_state = ++current_state % GEN_LENGHT;
+        }
+        else IF_INERVAL(actual_gen,4,11) {
+            const int jump = lookAt(actual_gen);
+            current_state = (current_state + jump) % GEN_LENGHT;
+        }
+        else IF_INERVAL(actual_gen,12,23) {
+            kick(actual_gen);
+        }
+        else current_state = ++current_state % GEN_LENGHT;
+
 
         if (--hp <= 0) {
             die();

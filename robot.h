@@ -13,6 +13,12 @@
 #define START_HP 10
 #define MAX_HP 99
 
+#define ROBOT_JUMP 1
+#define FOOD_JUMP 2
+#define WALL_JUMP 3
+#define EMPTY_JUMP 4
+
+
 namespace GeneticThings {
   class Robot : public MapObject {
   private:
@@ -28,6 +34,8 @@ namespace GeneticThings {
 
     void die();
     void move(int direction);
+    int lookAt(int direction);
+    int kick(int direction);
 
     int robotXToVector(int direction);
     int robotYToVector(int direction);
