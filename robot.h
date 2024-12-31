@@ -27,10 +27,13 @@ namespace GeneticThings {
     bool isAlive;
 
     void die();
+    void move(int direction);
+
+    int robotXToVector(int direction);
+    int robotYToVector(int direction);
   public:
     Robot(int x, int y, Map *map, int id);
 
-    void move(int x, int y);
     int get_id();
     bool is_alive();
     void execute_action();

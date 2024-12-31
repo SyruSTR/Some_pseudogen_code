@@ -8,7 +8,7 @@ namespace GeneticThings {
         this->id = id;
         std::cout << "Robot " << id << " created" << std::endl;
         for (int i =0; i<GEN_LENGHT;i++) {
-            gen[i] = rand() % MAX_GEN;
+            gen[i] = rand() % 1;
         }
         this->hp = START_HP;
         this->isAlive = true;
@@ -32,8 +32,12 @@ namespace GeneticThings {
     }
 
 
-    void Robot::move(int x, int y) {
-        switch (map->getObjectType(x,y)) {
+    void Robot::move(int direction) {
+
+        int check_x = robotXToVector(direction);
+        int check_y = robotYToVector(direction);
+
+        switch (map->getObjectType(check_x,check_y)) {
             case WALL:
             case ROBOT:
                 return;
@@ -44,20 +48,31 @@ namespace GeneticThings {
                 break;
         }
 
-        map->swapObjects(this->x,this->y,x,y);
+        map->swapObjects(this->x,this->y,check_x,check_y);
     }
+
+    int Robot::robotXToVector(int direction) {
+        direction = direction % 4;
+        if (direction == 0 || direction == 2) return this->x;
+        if (direction == 1) return this->x + 1;
+        if (direction == 3) return this->x - 1;
+    }
+
+    int Robot::robotYToVector(int direction) {
+        direction = direction % 4;
+        if (direction == 0) return this->y + 1;
+        if (direction == 1 || direction == 3) return this->y;
+        if (direction == 2) return this->y - 1;
+    }
+
 
 
     void Robot::execute_action(){
 
-        //0-3 move left
-        IF_INERVAL(gen[current_state],0,3){move(x+1,y);}
-        //4-7 move right
-        IF_INERVAL(gen[current_state],4,7){move(x-1,y);}
-        //8-11 move up
-        IF_INERVAL(gen[current_state],8,11){move(x,y+1);}
-        //12-15 move down
-        IF_INERVAL(gen[current_state],12,15){move(x,y-1);}
+
+        int actual_gen = gen[current_state];
+        //0-3 move
+        IF_INERVAL(actual_gen,0,3){move(actual_gen);}
         current_state = ++current_state % GEN_LENGHT;
 
         if (--hp <= 0) {
