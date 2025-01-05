@@ -12,7 +12,8 @@
 SimulationController::SimulationController(){
   std::cout << "Simulation controller created" << std::endl;
 
-  map = new GeneticThings::Map(50,8);
+  // map = new GeneticThings::Map(50,8);
+  map = new GeneticThings::Map("../TestMap.txt");
 
   for (int i = 0; i < 10; i++) {
     auto test_robot = map->addRobot_at_random_place(i);

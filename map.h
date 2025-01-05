@@ -9,7 +9,8 @@
  */
 #ifndef MAP_H
 #define MAP_H
-
+#include <cstdio>
+#include <string>
 
 
 namespace GeneticThings {
@@ -45,9 +46,17 @@ namespace GeneticThings {
          * @param width of map
          * @param height of map
          *
-         * @brief Map constructor
+         * @brief default Map constructor
          */
         Map(int width, int height);
+
+        /**
+         *
+         * @param mapFile
+         *
+         * @brief Map constructor, fill map from file
+         */
+        Map(std::string mapFile);
 
         /**
          *

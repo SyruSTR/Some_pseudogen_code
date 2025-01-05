@@ -8,8 +8,9 @@ add new actions
     rotate?
     jump for non-programmable number
 
-gen-mutation
+add custom map from file
+add custom gen for robot from file
 
 starting new iteration
-
+gen-mutation
 get stats about iterations

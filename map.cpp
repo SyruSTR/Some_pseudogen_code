@@ -9,6 +9,7 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <fstream>
 #include <iostream>
 #include <sstream>
 #include <unordered_set>
@@ -45,6 +46,64 @@ namespace GeneticThings {
             }
         }
     }
+
+    Map::Map(std::string fileName) {
+
+        std::ifstream mapFile(fileName);
+
+        std::string tmpLine;
+        std::vector<std::string> lines;
+
+        while (getline(mapFile, tmpLine)) {
+            lines.push_back(tmpLine);
+        }
+        mapFile.close();
+
+        //check the line`s width, they should be equaled
+        int width = lines[0].length();
+        for (int i = 1; i < lines.size(); ++i) {
+            if (lines[i].length() != width)
+                throw std::invalid_argument("Wrong map size. Check the lines width");
+        }
+
+        this->width = width;
+        this->height = lines.size();
+
+        grid = new MapObject**[width];
+
+        for (int x = 0; x < width; ++x) {
+            grid[x] = new MapObject*[height];
+        }
+
+        //filling the map off EMPTY space
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                grid[x][y] = new MapObject(x, y, this);
+            }
+        }
+
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                MapObject* tmp;
+                ObjectType type;
+                switch (lines[y][x]) {
+                    case '#': {
+                        type = WALL;
+                        break;
+                    }
+                    case ' ': {
+                        // EMPTY is already exist
+                        continue;
+                    }
+                }
+                tmp = new MapObject(x, y, this, type);
+                std::swap(grid[x][y], tmp);
+                delete tmp;
+            }
+        }
+
+    }
+
 
     Robot* Map::addRobot_at_random_place(int id) {
 
