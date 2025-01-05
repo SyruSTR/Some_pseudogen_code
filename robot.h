@@ -8,7 +8,7 @@
 #include "mapObject.h"
 #include "map.h"
 
-#define GEN_LENGHT 8
+#define GEN_LENGHT 64
 #define MAX_GEN 64
 #define START_HP 10
 #define MAX_HP 99
@@ -17,6 +17,10 @@
 #define FOOD_JUMP 2
 #define WALL_JUMP 3
 #define EMPTY_JUMP 4
+
+#define WALL_DAMAGE 5
+#define FOOD_RESTORE_HP 5
+#define ROBOT_DAMAGE 5
 
 
 namespace GeneticThings {
@@ -35,7 +39,7 @@ namespace GeneticThings {
     void die();
     void move(int direction);
     int lookAt(int direction);
-    int kick(int direction);
+    void kick(int direction);
 
     int robotXToVector(int direction);
     int robotYToVector(int direction);

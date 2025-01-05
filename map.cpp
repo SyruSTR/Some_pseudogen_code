@@ -137,6 +137,16 @@ namespace GeneticThings {
         }
     }
 
+    Robot* Map::GetRobot(int x, int y) {
+        MapObject* getted_object = get_object(x, y);
+
+        if (auto robot = dynamic_cast<Robot*>(getted_object)) {
+            return robot;
+        }
+
+        return nullptr;
+    }
+
     Map::~Map() {
         for (int i = 0; i < width; ++i) {
             for (int j = 0; j < height; ++j) {

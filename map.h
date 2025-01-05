@@ -92,6 +92,7 @@ namespace GeneticThings {
          */
         void swapObjects(int x1, int y1, int x2, int y2);
         MapObject* get_object(int x, int y);
+        Robot* GetRobot(int x, int y);
         void delete_object(int x, int y);
         ObjectType getObjectType(int x, int y);
         ~Map();

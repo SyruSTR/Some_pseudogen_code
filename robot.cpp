@@ -83,6 +83,38 @@ namespace GeneticThings {
         }
     }
 
+    void Robot::kick(int direction) {
+        int const check_x = robotXToVector(direction);
+        int const check_y = robotYToVector(direction);
+
+        switch (map->getObjectType(check_x,check_y)) {
+            case WALL: {
+                std::cout << "The robot: " << this->id << " is kicking the WALL" << std::endl;
+                this->hp -= WALL_DAMAGE;
+                break;
+            }
+            case FOOD: {
+                //todo destroy food
+                std::cout << "The robot: " << this->id << " is kicking the FOOD" << std::endl;
+                this->hp += FOOD_RESTORE_HP;
+                break;
+            }
+            case ROBOT: {
+
+                Robot* kicked_robot = this->map->GetRobot(check_x,check_y);
+                if (kicked_robot != NULL) {
+                    std::cout << "The robot: " << this->id << " is kicking the robot: " << kicked_robot->id << std::endl;
+                    kicked_robot->hp -= ROBOT_DAMAGE;
+                }
+                // kicked_robot.hp -= kicked_robot.hp;
+                break;
+            }
+            default:
+                break;
+        }
+    }
+
+
 
 
 
