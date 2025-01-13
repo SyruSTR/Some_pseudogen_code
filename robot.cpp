@@ -1,5 +1,6 @@
 #include "robot.h"
 #include <iostream>
+#include <regex>
 
 namespace GeneticThings {
 #define IF_INERVAL(value,a,b) if(value>=a && value<=b)
@@ -13,6 +14,44 @@ namespace GeneticThings {
         this->hp = START_HP;
         this->isAlive = true;
     }
+
+    Robot::Robot(int x, int y, Map *map, int id, std::string &gens_from_file): MapObject(x,y, map, ROBOT) {
+        this->id = id;
+        this->hp = START_HP;
+        this->isAlive = true;
+        ValidateAndParseGen(gens_from_file);
+
+        std::cout << "Robot " << id << " created" << std::endl;
+    }
+
+    void Robot::ValidateAndParseGen( std::string &raw_line) {
+        // Regex to match the format: [ num1, num2, ..., numN ]
+        std::regex pattern(R"(\[\s*(\d{1,2}(,\s*\d{1,2})*)\s*\])");
+        std::smatch match;
+
+        if (!std::regex_match(raw_line, match, pattern)) {
+            throw std::invalid_argument("Invalid gen. Expected format: [ num1, num2, ..., numN ]");
+        }
+
+        //stream of numbers
+        std::istringstream iss(match[1].str());
+        std::string tmpNumber;
+        int i = 0;
+
+        while (std::getline(iss, tmpNumber, ',')) {
+            int value = std::stoi(tmpNumber);
+            if (value < 0 || value >= GEN_LENGHT) {
+                throw std::out_of_range("Number out of range [0,63]:" + std::to_string(value));
+            }
+            this->gen[i] = static_cast<short int>(value);
+            i++;
+        }
+
+        if (i != GEN_LENGHT) {
+            throw std::length_error("Line doesnt contain 64 numbers, it contains: " + std::to_string(i));
+        }
+    }
+
 
     bool Robot::is_alive() {
         return isAlive;

@@ -43,8 +43,11 @@ namespace GeneticThings {
 
     int robotXToVector(int direction);
     int robotYToVector(int direction);
+
+    void ValidateAndParseGen(std::string &raw_line);
   public:
     Robot(int x, int y, Map *map, int id);
+    Robot(int x, int y, Map *map, int id, std::string &gens_from_file);
 
     int get_id();
     bool is_alive();

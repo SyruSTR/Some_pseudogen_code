@@ -11,6 +11,7 @@
 #define MAP_H
 #include <cstdio>
 #include <string>
+#include <vector>
 
 
 namespace GeneticThings {
@@ -32,6 +33,8 @@ namespace GeneticThings {
      */
     class Map {
     private:
+
+        std::vector<Robot*> robots;
         /**
          * @bried height and wight of grid
          */
@@ -53,10 +56,11 @@ namespace GeneticThings {
         /**
          *
          * @param mapFile
+         * @param gensFile
          *
          * @brief Map constructor, fill map from file
          */
-        Map(std::string mapFile);
+        Map(const std::string& mapName,const std::string& gensName);
 
         /**
          *
@@ -64,13 +68,14 @@ namespace GeneticThings {
          * @return created ptr to created robot. If its NULL, grid dont have space for new robot.
          *
          */
-        Robot* addRobot_at_random_place(int id);
+        void addRobot_at_random_place(int id);
+
+        std::vector<Robot*>* getRobots();
 
         /**
          *
          * @param x checking x coordinate
          * @param y checking y coordinate
-         * @return
          *
          * @brief Does grid have a wall at this position?
          */

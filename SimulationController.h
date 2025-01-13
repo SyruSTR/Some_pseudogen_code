@@ -13,7 +13,7 @@
 class SimulationController {
     private:
     GeneticThings::Map *map;
-    std::vector<GeneticThings::Robot*> robots;
+    std::vector<GeneticThings::Robot*> * robots;
 
     public:
         SimulationController();

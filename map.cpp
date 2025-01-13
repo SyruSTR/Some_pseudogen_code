@@ -13,6 +13,7 @@
 #include <iostream>
 #include <sstream>
 #include <unordered_set>
+#include <filesystem>
 
 #include "robot.h"
 
@@ -47,9 +48,12 @@ namespace GeneticThings {
         }
     }
 
-    Map::Map(std::string fileName) {
+    Map::Map(const std::string& fileName, const std::string& gensName) {
 
         std::ifstream mapFile(fileName);
+
+        if (!mapFile.good())
+            throw std::runtime_error("Map File does not exist");
 
         std::string tmpLine;
         std::vector<std::string> lines;
@@ -82,6 +86,11 @@ namespace GeneticThings {
             }
         }
 
+        //open gens file
+        std::ifstream gensFile(gensName);
+        std::string tmpGensLine;
+        int robot_id = 0;
+
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
                 MapObject* tmp;
@@ -90,6 +99,22 @@ namespace GeneticThings {
                     case '#': {
                         type = WALL;
                         break;
+                    }
+                    case '@': {
+                        if (!gensFile.good())
+                            throw std::runtime_error("Gens File does not exist");
+                        type = ROBOT;
+                        if (getline(gensFile,tmpGensLine)) {
+                            tmp = new Robot(x,y,this,robot_id,tmpGensLine);
+                            std::swap(grid[x][y], tmp);
+                            robots.push_back(dynamic_cast<Robot*>(grid[x][y]));
+                            delete tmp;
+                            robot_id++;
+                        }
+                        else {
+                            throw std::length_error("Wrong count of gens, check the gens or map. Lines gens count is: " + robot_id);
+                        }
+                        continue;
                     }
                     case ' ': {
                         // EMPTY is already exist
@@ -102,10 +127,18 @@ namespace GeneticThings {
             }
         }
 
+        gensFile.close();
+
     }
 
 
-    Robot* Map::addRobot_at_random_place(int id) {
+    std::vector<Robot *>* Map::getRobots() {
+        return &robots;
+    }
+
+
+
+    void Map::addRobot_at_random_place(int id) {
 
         int index = this->height * this->width;
         do {
@@ -120,12 +153,10 @@ namespace GeneticThings {
             delete this->grid[x][y];
             const auto robot = new Robot(x, y, this, id);
             this->grid[x][y] = robot;
-            return robot;
+            robots.push_back(robot);
+            return;
 
         } while (index >= 0);
-
-
-        return nullptr;
     }
 
     bool Map::isWall(int x, int y) {
