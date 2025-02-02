@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <vector>
-#include "mapObject.h"
+#include "Map/mapObject.h"
 
 #ifndef SIMULATIONCONTROLLER_H
 #define SIMULATIONCONTROLLER_H

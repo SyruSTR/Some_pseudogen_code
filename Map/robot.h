@@ -33,9 +33,6 @@ namespace GeneticThings {
     //Gen commands for robot
     short int gen [GEN_LENGHT];
 
-    int hp;
-    bool isAlive;
-
     void die();
     void move(int direction);
     int lookAt(int direction);
@@ -49,11 +46,11 @@ namespace GeneticThings {
     Robot(int x, int y, Map *map, int id);
     Robot(int x, int y, Map *map, int id, std::string &gens_from_file);
 
-    int get_id();
-    bool is_alive();
-    void execute_action();
+    void ExecuteAction() override;
 
-    ~Robot();
+    int get_id() const;
+
+    ~Robot() override;
   };
 }
 

@@ -9,7 +9,6 @@
  */
 #ifndef MAP_H
 #define MAP_H
-#include <cstdio>
 #include <string>
 #include <vector>
 
@@ -26,6 +25,8 @@ namespace GeneticThings {
 
     class MapObject;
     class Robot;
+    class Wall;
+    class Empty;
 
     /**
      * @class Map

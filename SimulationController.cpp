@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <fstream>
 
-#include "robot.h"
+#include "Map/robot.h"
 
 SimulationController::SimulationController(){
   std::cout << "Simulation controller created" << std::endl;
@@ -29,7 +29,7 @@ void SimulationController::deleteDeadRobots(){
     //delete robot from system
     robots->erase(std::remove_if(robots->begin(),robots->end(),
       [this](GeneticThings::Robot* search_robot){
-        if (!search_robot->is_alive()) {
+        if (!search_robot->IsAlive()) {
           //delete robot from grid
           map->delete_object(search_robot->x,search_robot->y);
           return true;
@@ -49,7 +49,7 @@ void SimulationController::startSimulation(){
 
   for (int i = 0; i < 10; i++) {
     for (auto & robot : *robots) {
-      robot->execute_action();
+      robot->ExecuteAction();
     }
     deleteDeadRobots();
     // sleep(1);

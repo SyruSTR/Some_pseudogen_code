@@ -3,9 +3,9 @@
 //
 
 #include "map.h"
-#include "mapObject.h"
-
-#include "map.h"
+#include "Empty.h"
+#include "Wall.h"
+#include "robot.h"
 
 #include <cstdio>
 #include <cstdlib>
@@ -13,9 +13,7 @@
 #include <iostream>
 #include <sstream>
 #include <unordered_set>
-#include <filesystem>
 
-#include "robot.h"
 
 namespace GeneticThings {
 
@@ -32,7 +30,7 @@ namespace GeneticThings {
         //filling the map off EMPTY space
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
-                grid[x][y] = new MapObject(x, y, this);
+                grid[x][y] = new Empty(x, y, this);
             }
         }
 
@@ -40,7 +38,7 @@ namespace GeneticThings {
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
                 if (y == 0 || y == height - 1 || x == 0 || x == width - 1) {
-                    auto tmp = new MapObject(x, y, this, WALL);
+                    MapObject* tmp = new Wall(x, y, this);
                     std::swap(grid[x][y], tmp);
                     delete tmp;
                 }
@@ -82,7 +80,7 @@ namespace GeneticThings {
         //filling the map off EMPTY space
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
-                grid[x][y] = new MapObject(x, y, this);
+                grid[x][y] = new Empty(x, y, this);
             }
         }
 
@@ -94,36 +92,39 @@ namespace GeneticThings {
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
                 MapObject* tmp;
-                ObjectType type;
+                bool found = false;
                 switch (lines[y][x]) {
                     case '#': {
-                        type = WALL;
+                        found = true;
+                        tmp = new Wall(x, y, this);
                         break;
                     }
                     case '@': {
                         if (!gensFile.good())
                             throw std::runtime_error("Gens File does not exist");
-                        type = ROBOT;
                         if (getline(gensFile,tmpGensLine)) {
+                            found = true;
                             tmp = new Robot(x,y,this,robot_id,tmpGensLine);
-                            std::swap(grid[x][y], tmp);
-                            robots.push_back(dynamic_cast<Robot*>(grid[x][y]));
-                            delete tmp;
+                            robots.push_back(dynamic_cast<Robot*>(tmp));
                             robot_id++;
                         }
                         else {
-                            throw std::length_error("Wrong count of gens, check the gens or map. Lines gens count is: " + robot_id);
+                            throw std::length_error("Wrong count of gens, check the gens or map. Lines gens count is: " + std::to_string(robot_id));
                         }
-                        continue;
+                        break;
                     }
                     case ' ': {
                         // EMPTY is already exist
-                        continue;
+                        break;
                     }
                 }
-                tmp = new MapObject(x, y, this, type);
-                std::swap(grid[x][y], tmp);
-                delete tmp;
+                // tmp = new MapObject(x, y, this, type);
+                if (found) {
+                    std::swap(grid[x][y], tmp);
+                    delete tmp;
+                }
+
+
             }
         }
 
@@ -145,7 +146,7 @@ namespace GeneticThings {
             int y = rand() % (this->height-1) + 1;
             int x = rand() % (this->width-1) + 1;
 
-            if (grid[x][y]->type == WALL || grid[x][y]->type == ROBOT) {
+            if (grid[x][y]->GetType() == WALL || grid[x][y]->GetType() == ROBOT) {
                 index--;
                 continue;
             }
@@ -160,11 +161,11 @@ namespace GeneticThings {
     }
 
     bool Map::isWall(int x, int y) {
-        return grid[x][y]->type == WALL;
+        return grid[x][y]->GetType() == WALL;
     }
 
     ObjectType Map::getObjectType(int x, int y) {
-        return grid[x][y]->type;
+        return grid[x][y]->GetType();
     }
 
     void Map::swapObjects(int x1, int y1, int x2, int y2) {
@@ -194,7 +195,7 @@ namespace GeneticThings {
 
     void Map::delete_object(int x, int y) {
         if (x < 0 || y < 0 || x >= height || y >= width) return;
-        MapObject* empty_space = new MapObject(x, y, this);
+        MapObject* empty_space = new Empty(x, y, this);
         std::swap(grid[x][y], empty_space);
         delete empty_space;
     }
@@ -205,7 +206,7 @@ namespace GeneticThings {
             for (int x = 0; x < width; ++x) {
                 //just for safe from SIGSEGV
                 if (grid[x][y] != nullptr) {
-                    switch (grid[x][y]->type) {
+                    switch (grid[x][y]->GetType()) {
                         case EMPTY:
                             printf("  ");
                         break;

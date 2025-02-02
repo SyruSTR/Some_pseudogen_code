@@ -6,7 +6,7 @@
 #define MAPOBJECT_H
 
 #include "map.h"
-#include "SimulationController.h"
+#include "../SimulationController.h"
 
 namespace GeneticThings {
 
@@ -17,18 +17,25 @@ namespace GeneticThings {
     protected:
         Map *map;
         SimulationController *sim;
+
+        bool isInvincible;
+        int hp;
+        bool isAlive;
+        ObjectType type;
     public:
         int x;
         int y;
 
-        ObjectType type;
         MapObject();
-        MapObject(int x, int y, Map *map, ObjectType type = EMPTY);
+        MapObject(int x, int y, Map *map);
 
+        bool IsAlive() const;
+        ObjectType GetType() const;
+        virtual void ExecuteAction() = 0;
+        void GetDamage(int damage);
         void info();
-        virtual ~MapObject();
 
-        MapObject &operator=(Robot * robot);
+        virtual ~MapObject();
     };
 }
 

@@ -5,17 +5,19 @@
 namespace GeneticThings {
 #define IF_INERVAL(value,a,b) if(value>=a && value<=b)
 
-    Robot::Robot(int x, int y, Map *map , int id):  MapObject(x,y, map, ROBOT) {
+    Robot::Robot(int x, int y, Map *map , int id):  MapObject(x,y, map) {
         this->id = id;
-        std::cout << "Robot " << id << " created" << std::endl;
+        this->type = ROBOT;
+        this->hp = START_HP;
+        this->isAlive = true;
         for (int i =0; i<GEN_LENGHT;i++) {
             gen[i] = rand() % GEN_LENGHT;
         }
-        this->hp = START_HP;
-        this->isAlive = true;
+        std::cout << "Robot " << id << " created" << std::endl;
     }
 
-    Robot::Robot(int x, int y, Map *map, int id, std::string &gens_from_file): MapObject(x,y, map, ROBOT) {
+    Robot::Robot(int x, int y, Map *map, int id, std::string &gens_from_file): MapObject(x,y, map) {
+        this->type = ROBOT;
         this->id = id;
         this->hp = START_HP;
         this->isAlive = true;
@@ -52,16 +54,11 @@ namespace GeneticThings {
         }
     }
 
-
-    bool Robot::is_alive() {
-        return isAlive;
-    }
-
     Robot::~Robot() {
         std::cout << "Robot " << id << " destroyed" << std::endl;
     }
 
-    int Robot::get_id() {
+    int Robot::get_id() const {
         return id;
     }
 
@@ -90,11 +87,13 @@ namespace GeneticThings {
         map->swapObjects(this->x,this->y,check_x,check_y);
     }
 
+
     int Robot::robotXToVector(int direction) {
         direction = direction % 4;
         if (direction == 0 || direction == 2) return this->x;
         if (direction == 1) return this->x + 1;
         if (direction == 3) return this->x - 1;
+        return -1;
     }
 
     int Robot::robotYToVector(int direction) {
@@ -102,6 +101,7 @@ namespace GeneticThings {
         if (direction == 0) return this->y + 1;
         if (direction == 1 || direction == 3) return this->y;
         if (direction == 2) return this->y - 1;
+        return -1;
     }
 
     int Robot::lookAt(const int direction) {
@@ -153,13 +153,7 @@ namespace GeneticThings {
         }
     }
 
-
-
-
-
-    void Robot::execute_action(){
-
-
+    void Robot::ExecuteAction(){
         int actual_gen = gen[current_state];
         //0-3 move
         IF_INERVAL(actual_gen,0,3) {
