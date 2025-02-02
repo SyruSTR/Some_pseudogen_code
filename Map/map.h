@@ -13,7 +13,7 @@
 #include <vector>
 
 
-namespace GeneticThings {
+namespace genetic_things {
 
     enum ObjectType {
         EMPTY,
@@ -35,15 +35,15 @@ namespace GeneticThings {
     class Map {
     private:
 
-        std::vector<Robot*> robots;
+        std::vector<Robot*> _robots;
         /**
          * @bried height and wight of grid
          */
-        int width, height;
+        int _width, _height;
         /**
          * @brief grid of objects represents like array[][]
          */
-        MapObject ***grid{};
+        MapObject ***_grid{};
     public:
         /**
          *
@@ -61,7 +61,7 @@ namespace GeneticThings {
          *
          * @brief Map constructor, fill map from file
          */
-        Map(const std::string& mapName,const std::string& gensName);
+        Map(const std::string& map_name,const std::string& gen_name);
 
         /**
          *
@@ -69,7 +69,7 @@ namespace GeneticThings {
          * @return created ptr to created robot. If its NULL, grid dont have space for new robot.
          *
          */
-        void addRobot_at_random_place(int id);
+        void addRobotAtRandomPlace(int id);
 
         std::vector<Robot*>* getRobots();
 
@@ -106,9 +106,9 @@ namespace GeneticThings {
          * @brief swap 2 @see MapObject (objects may be .....)
          */
         void swapObjects(int x1, int y1, int x2, int y2);
-        MapObject* get_object(int x, int y);
-        Robot* GetRobot(int x, int y);
-        void delete_object(int x, int y);
+        MapObject* getObject(int x, int y);
+        Robot* getRobot(int x, int y);
+        void deleteObject(int x, int y);
         ObjectType getObjectType(int x, int y);
         ~Map();
     };

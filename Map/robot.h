@@ -23,15 +23,15 @@
 #define ROBOT_DAMAGE 5
 
 
-namespace GeneticThings {
+namespace genetic_things {
   class Robot : public MapObject {
   private:
-    int id;
+    int _id;
 
     //current pointer in
-    int current_state = 0;
+    int _current_state = 0;
     //Gen commands for robot
-    short int gen [GEN_LENGHT];
+    short int _gens [GEN_LENGHT];
 
     void die();
     void move(int direction);
@@ -41,14 +41,14 @@ namespace GeneticThings {
     int robotXToVector(int direction);
     int robotYToVector(int direction);
 
-    void ValidateAndParseGen(std::string &raw_line);
+    void validateAndParseGen(std::string &raw_line);
   public:
     Robot(int x, int y, Map *map, int id);
     Robot(int x, int y, Map *map, int id, std::string &gens_from_file);
 
-    void ExecuteAction() override;
+    void executeAction() override;
 
-    int get_id() const;
+    int getId() const;
 
     ~Robot() override;
   };

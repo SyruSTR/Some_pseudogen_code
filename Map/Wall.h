@@ -5,12 +5,12 @@
 #ifndef WALL_H
 #define WALL_H
 
-namespace GeneticThings {
+namespace genetic_things {
     class Wall : public MapObject {
     public:
         Wall(int x, int y, Map *map);
         ~Wall() override;
-        void ExecuteAction() override;
+        void executeAction() override;
     };
 }
 

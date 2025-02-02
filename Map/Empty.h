@@ -4,12 +4,12 @@
 #include "mapObject.h"
 #include "map.h"
 
-namespace GeneticThings {
+namespace genetic_things {
     class Empty : public MapObject {
     public:
         Empty(int x, int y, Map *map);
         ~Empty() override;
-        void ExecuteAction() override;
+        void executeAction() override;
     };
 }
 

@@ -8,20 +8,20 @@
 #include "map.h"
 #include "../SimulationController.h"
 
-namespace GeneticThings {
+namespace genetic_things {
 
     class Map;
     class Robot;
 
     class MapObject {
     protected:
-        Map *map;
-        SimulationController *sim;
+        Map *_map;
+        SimulationController *_sim;
 
-        bool isInvincible;
-        int hp;
-        bool isAlive;
-        ObjectType type;
+        bool _isInvincible;
+        int _hp;
+        bool _isAlive;
+        ObjectType _type;
     public:
         int x;
         int y;
@@ -29,10 +29,10 @@ namespace GeneticThings {
         MapObject();
         MapObject(int x, int y, Map *map);
 
-        bool IsAlive() const;
-        ObjectType GetType() const;
-        virtual void ExecuteAction() = 0;
-        void GetDamage(int damage);
+        bool isAlive() const;
+        ObjectType getType() const;
+        virtual void executeAction() = 0;
+        void getDamage(int damage);
         void info();
 
         virtual ~MapObject();

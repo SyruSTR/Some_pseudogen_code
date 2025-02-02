@@ -2,33 +2,33 @@
 #include <iostream>
 #include <regex>
 
-namespace GeneticThings {
+namespace genetic_things {
 #define IF_INERVAL(value,a,b) if(value>=a && value<=b)
 
     Robot::Robot(int x, int y, Map *map , int id):  MapObject(x,y, map) {
-        this->id = id;
-        this->type = ROBOT;
-        this->hp = START_HP;
-        this->isAlive = true;
+        this->_id = id;
+        this->_type = ROBOT;
+        this->_hp = START_HP;
+        this->_isAlive = true;
         for (int i =0; i<GEN_LENGHT;i++) {
-            gen[i] = rand() % GEN_LENGHT;
+            _gens[i] = rand() % GEN_LENGHT;
         }
         std::cout << "Robot " << id << " created" << std::endl;
     }
 
     Robot::Robot(int x, int y, Map *map, int id, std::string &gens_from_file): MapObject(x,y, map) {
-        this->type = ROBOT;
-        this->id = id;
-        this->hp = START_HP;
-        this->isAlive = true;
-        ValidateAndParseGen(gens_from_file);
+        this->_type = ROBOT;
+        this->_id = id;
+        this->_hp = START_HP;
+        this->_isAlive = true;
+        validateAndParseGen(gens_from_file);
 
         std::cout << "Robot " << id << " created" << std::endl;
     }
 
-    void Robot::ValidateAndParseGen( std::string &raw_line) {
+    void Robot::validateAndParseGen( std::string &raw_line) {
         // Regex to match the format: [ num1, num2, ..., numN ]
-        std::regex pattern(R"(\[\s*(\d{1,2}(,\s*\d{1,2})*)\s*\])");
+        const std::regex pattern(R"(\[\s*(\d{1,2}(,\s*\d{1,2})*)\s*\])");
         std::smatch match;
 
         if (!std::regex_match(raw_line, match, pattern)) {
@@ -37,15 +37,15 @@ namespace GeneticThings {
 
         //stream of numbers
         std::istringstream iss(match[1].str());
-        std::string tmpNumber;
+        std::string tmp_number;
         int i = 0;
 
-        while (std::getline(iss, tmpNumber, ',')) {
-            int value = std::stoi(tmpNumber);
+        while (std::getline(iss, tmp_number, ',')) {
+            int value = std::stoi(tmp_number);
             if (value < 0 || value >= GEN_LENGHT) {
                 throw std::out_of_range("Number out of range [0,63]:" + std::to_string(value));
             }
-            this->gen[i] = static_cast<short int>(value);
+            this->_gens[i] = static_cast<short int>(value);
             i++;
         }
 
@@ -55,16 +55,16 @@ namespace GeneticThings {
     }
 
     Robot::~Robot() {
-        std::cout << "Robot " << id << " destroyed" << std::endl;
+        std::cout << "Robot " << _id << " destroyed" << std::endl;
     }
 
-    int Robot::get_id() const {
-        return id;
+    int Robot::getId() const {
+        return _id;
     }
 
 
     void Robot::die() {
-        isAlive = false;
+        _isAlive = false;
     }
 
 
@@ -73,7 +73,7 @@ namespace GeneticThings {
         int check_x = robotXToVector(direction);
         int check_y = robotYToVector(direction);
 
-        switch (map->getObjectType(check_x,check_y)) {
+        switch (_map->getObjectType(check_x,check_y)) {
             case WALL:
             case ROBOT:
                 return;
@@ -84,7 +84,7 @@ namespace GeneticThings {
                 break;
         }
 
-        map->swapObjects(this->x,this->y,check_x,check_y);
+        _map->swapObjects(this->x,this->y,check_x,check_y);
     }
 
 
@@ -108,7 +108,7 @@ namespace GeneticThings {
         int const check_x = robotXToVector(direction);
         int const check_y = robotYToVector(direction);
 
-        switch (map->getObjectType(check_x,check_y)) {
+        switch (_map->getObjectType(check_x,check_y)) {
             case WALL:
                 return WALL_JUMP;
             case FOOD:
@@ -126,24 +126,24 @@ namespace GeneticThings {
         int const check_x = robotXToVector(direction);
         int const check_y = robotYToVector(direction);
 
-        switch (map->getObjectType(check_x,check_y)) {
+        switch (_map->getObjectType(check_x,check_y)) {
             case WALL: {
-                std::cout << "The robot: " << this->id << " is kicking the WALL" << std::endl;
-                this->hp -= WALL_DAMAGE;
+                std::cout << "The robot: " << this->_id << " is kicking the WALL" << std::endl;
+                this->_hp -= WALL_DAMAGE;
                 break;
             }
             case FOOD: {
                 //todo destroy food
-                std::cout << "The robot: " << this->id << " is kicking the FOOD" << std::endl;
-                this->hp += FOOD_RESTORE_HP;
+                std::cout << "The robot: " << this->_id << " is kicking the FOOD" << std::endl;
+                this->_hp += FOOD_RESTORE_HP;
                 break;
             }
             case ROBOT: {
 
-                Robot* kicked_robot = this->map->GetRobot(check_x,check_y);
+                Robot* kicked_robot = this->_map->getRobot(check_x,check_y);
                 if (kicked_robot != NULL) {
-                    std::cout << "The robot: " << this->id << " is kicking the robot: " << kicked_robot->id << std::endl;
-                    kicked_robot->hp -= ROBOT_DAMAGE;
+                    std::cout << "The robot: " << _id << " is kicking the robot: " << kicked_robot->_id << std::endl;
+                    kicked_robot->_hp -= ROBOT_DAMAGE;
                 }
                 // kicked_robot.hp -= kicked_robot.hp;
                 break;
@@ -153,24 +153,24 @@ namespace GeneticThings {
         }
     }
 
-    void Robot::ExecuteAction(){
-        int actual_gen = gen[current_state];
+    void Robot::executeAction(){
+        int actual_gen = _gens[_current_state];
         //0-3 move
         IF_INERVAL(actual_gen,0,3) {
             move(actual_gen);
-            current_state = ++current_state % GEN_LENGHT;
+            _current_state = ++_current_state % GEN_LENGHT;
         }
         else IF_INERVAL(actual_gen,4,11) {
             const int jump = lookAt(actual_gen);
-            current_state = (current_state + jump) % GEN_LENGHT;
+            _current_state = (_current_state + jump) % GEN_LENGHT;
         }
         else IF_INERVAL(actual_gen,12,23) {
             kick(actual_gen);
         }
-        else current_state = ++current_state % GEN_LENGHT;
+        else _current_state = ++_current_state % GEN_LENGHT;
 
 
-        if (--hp <= 0) {
+        if (--_hp <= 0) {
             die();
         }
     }

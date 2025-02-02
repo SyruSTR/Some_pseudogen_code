@@ -1,13 +1,13 @@
 #include "Empty.h"
 
-using namespace GeneticThings;
+using namespace genetic_things;
 
     Empty::Empty(int x, int y, Map *map) : MapObject(x, y, map){
-        this->type = EMPTY;
+        this->_type = EMPTY;
     }
     Empty::~Empty(){};
 
-    void Empty::ExecuteAction() {
+    void Empty::executeAction() {
 
     }
 

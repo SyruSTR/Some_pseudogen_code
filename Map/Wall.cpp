@@ -2,15 +2,15 @@
 
 #include "Wall.h"
 
-using namespace GeneticThings;
+using namespace genetic_things;
 
 Wall::Wall(int x, int y, Map* map) : MapObject(x, y, map){
-  this->type = WALL;
+  this->_type = WALL;
   }
 
 Wall::~Wall() = default;
 
-void Wall::ExecuteAction() {
+void Wall::executeAction() {
 
 }
 

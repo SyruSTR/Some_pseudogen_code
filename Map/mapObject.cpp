@@ -5,20 +5,20 @@
 #include "mapObject.h"
 
 #include <iostream>
-using namespace GeneticThings;
+using namespace genetic_things;
 
 MapObject::MapObject() {
     this->x = 0;
     this->y = 0;
-    this->map = nullptr;
-    this->type = EMPTY;
+    this->_map = nullptr;
+    this->_type = EMPTY;
 }
 
-MapObject::MapObject(int x, int y, Map *map) : x(x), y(y), map(map){}
+MapObject::MapObject(int x, int y, Map *map) : _map(map), x(x), y(y){}
 
 
-bool MapObject::IsAlive() const {
-    return isAlive;
+bool MapObject::isAlive() const {
+    return _isAlive;
 }
 
 void MapObject::info() {
@@ -26,16 +26,16 @@ void MapObject::info() {
     std::cout << "y -> " << y << std::endl;
 }
 
-ObjectType MapObject::GetType() const {
-    return type;
+ObjectType MapObject::getType() const {
+    return _type;
 }
 
-void MapObject::GetDamage(const int damage) {
-    if (!isInvincible) {
-        if (damage > this->hp)
-            this->hp = 0;
+void MapObject::getDamage(const int damage) {
+    if (!_isInvincible) {
+        if (damage > this->_hp)
+            this->_hp = 0;
         else {
-            this->hp -= damage;
+            this->_hp -= damage;
         }
     }
 }
