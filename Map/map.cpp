@@ -6,6 +6,7 @@
 #include "Empty.h"
 #include "Wall.h"
 #include "robot.h"
+#include "Food.h"
 
 #include <cstdio>
 #include <cstdlib>
@@ -138,24 +139,38 @@ namespace genetic_things {
 
 
     void Map::addRobotAtRandomPlace(int id) {
+        addObjectAtRandomPlace([this, id](int x, int y, Map* map) {
+            return new Robot(x, y, map, id);
+    });
+    }
 
-        int index = this->_height * this->_width;
+    void Map::addFoodAtRandomPlace() {
+        addObjectAtRandomPlace([this](int x, int y, Map* map) {
+            return new Food(x,y,map);
+        });
+    }
+
+
+    void Map::addObjectAtRandomPlace(const std::function<MapObject*(int,int, Map*)>& createObject) {
+        int attempts = _height * _width;
         do {
-            int y = rand() % (this->_height-1) + 1;
-            int x = rand() % (this->_width-1) + 1;
+            int y = rand() % (_height-1) + 1;
+            int x = rand() % (_width-1) + 1;
 
-            if (_grid[x][y]->getType() == WALL || _grid[x][y]->getType() == ROBOT) {
-                index--;
+            if (_grid[x][y]->getType() != EMPTY) {
+                attempts--;
                 continue;
             }
 
-            delete this->_grid[x][y];
-            const auto robot = new Robot(x, y, this, id);
-            this->_grid[x][y] = robot;
-            _robots.push_back(robot);
+            delete _grid[x][y];
+            MapObject* obj = createObject(x,y,this);
+            _grid[x][y] = obj;
+            if (dynamic_cast<Robot*>(obj)) {
+                _robots.push_back(dynamic_cast<Robot*>(obj));
+            }
             return;
 
-        } while (index >= 0);
+        } while (attempts >= 0);
     }
 
     bool Map::isWall(int x, int y) {

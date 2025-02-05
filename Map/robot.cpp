@@ -164,7 +164,7 @@ namespace genetic_things {
             const int jump = lookAt(actual_gen);
             _current_state = (_current_state + jump) % GEN_LENGHT;
         }
-        else IF_INERVAL(actual_gen,12,23) {
+        else IF_INERVAL(actual_gen,12,19) {
             kick(actual_gen);
         }
         else _current_state = ++_current_state % GEN_LENGHT;

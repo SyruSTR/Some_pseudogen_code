@@ -12,16 +12,17 @@
 SimulationController::SimulationController(){
   std::cout << "Simulation controller created" << std::endl;
 
-  // map = new GeneticThings::Map(50,8);
-  _map = new genetic_things::Map("../TestMap.txt", "../TestGens.txt");
+  _map = new genetic_things::Map(50,10);
+  //_map = new genetic_things::Map("../TestMap.txt", "../TestGens.txt");
   _robots = _map->getRobots();
 
-  // for (int i = 0; i < 10; i++) {
-  //   auto test_robot = map->addRobot_at_random_place(i);map->addRobot_at_random_place(i);
-  //   if (!test_robot)
-  //     break;
-  //   robots.push_back(test_robot);
-  // }
+  for (int i = 0; i < 10; i++) {
+    _map->addRobotAtRandomPlace(i);
+  }
+
+  for (int i = 0; i < 10; i++) {
+    _map->addFoodAtRandomPlace();
+  }
 }
 
 void SimulationController::deleteDeadRobots(){

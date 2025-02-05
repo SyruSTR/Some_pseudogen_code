@@ -13,6 +13,8 @@ add_executable(Some_pseudogen_kod
         Map/mapObject.h
         Map/Wall.h
         Map/Wall.cpp
+        Map/Food.h
+        Map/Food.cpp
         Map/Empty.h
         Map/Empty.cpp
     SimulationController.cpp

@@ -9,6 +9,7 @@
  */
 #ifndef MAP_H
 #define MAP_H
+#include <functional>
 #include <string>
 #include <vector>
 
@@ -27,6 +28,7 @@ namespace genetic_things {
     class Robot;
     class Wall;
     class Empty;
+    class Food;
 
     /**
      * @class Map
@@ -70,10 +72,13 @@ namespace genetic_things {
         /**
          *
          * @param id for new robot
-         * @return created ptr to created robot. If its NULL, grid dont have space for new robot.
          *
          */
         void addRobotAtRandomPlace(int id);
+
+        void addFoodAtRandomPlace();
+
+        void addObjectAtRandomPlace(const std::function<MapObject*(int,int, Map*)>& createObject);
 
         std::vector<Robot*>* getRobots();
 
