@@ -44,6 +44,10 @@ namespace genetic_things {
          * @brief grid of objects represents like array[][]
          */
         MapObject ***_grid{};
+
+        void initMap();
+        void fillEmpty();
+        void fillBorders();
     public:
         /**
          *

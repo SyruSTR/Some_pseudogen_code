@@ -16,24 +16,16 @@
 
 
 namespace genetic_things {
-
-    Map::Map(int width, int height) {
-        this->_width = width;
-        this->_height = height;
-
-        _grid = new MapObject**[width];
-
-        for (int x = 0; x < width; ++x) {
-            _grid[x] = new MapObject*[height];
-        }
-
+    void Map::fillEmpty() {
         //filling the map off EMPTY space
         for (int y = 0; y < _height; ++y) {
             for (int x = 0; x < _width; ++x) {
                 _grid[x][y] = new Empty(x, y, this);
             }
         }
+    }
 
+    void Map::fillBorders() {
         //add borders for map
         for (int y = 0; y < _height; ++y) {
             for (int x = 0; x < _width; ++x) {
@@ -44,6 +36,25 @@ namespace genetic_things {
                 }
             }
         }
+    }
+
+    void Map::initMap() {
+        _grid = new MapObject**[_width];
+
+        for (int x = 0; x < _width; ++x) {
+            _grid[x] = new MapObject*[_height];
+        }
+    }
+
+    Map::Map(int width, int height) {
+        this->_width = width;
+        this->_height = height;
+
+        initMap();
+
+        fillEmpty();
+
+        fillBorders();
     }
 
     Map::Map(const std::string& file_name, const std::string& gens_name) {
@@ -71,18 +82,9 @@ namespace genetic_things {
         this->_width = width;
         this->_height = lines.size();
 
-        _grid = new MapObject**[_width];
+        initMap();
 
-        for (int x = 0; x < _width; ++x) {
-            _grid[x] = new MapObject*[_height];
-        }
-
-        //filling the map off EMPTY space
-        for (int y = 0; y < _height; ++y) {
-            for (int x = 0; x < _width; ++x) {
-                _grid[x][y] = new Empty(x, y, this);
-            }
-        }
+        fillEmpty();
 
         //open gens file
         std::ifstream gens_file(gens_name);
