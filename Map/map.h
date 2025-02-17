@@ -118,6 +118,8 @@ namespace genetic_things {
         Robot* getRobot(int x, int y);
         void deleteObject(int x, int y);
         ObjectType getObjectType(int x, int y);
+        int getHeight() const;
+        int getWidth() const;
         ~Map();
     };
 }

@@ -27,6 +27,15 @@ namespace genetic_things {
         }
     }
 
+    int Map::getHeight() const {
+        return _height;
+    }
+
+    int Map::getWidth() const {
+        return _width;
+    }
+
+
     void Map::fillBorders() {
         //add borders for map
         for (int y = 0; y < _height; ++y) {
@@ -49,6 +58,9 @@ namespace genetic_things {
     }
 
     Map::Map(int width, int height) {
+        if (width < 1 || height < 1) {
+            throw std::invalid_argument("width and height must be greater than 0");
+        }
         this->_width = width;
         this->_height = height;
 
