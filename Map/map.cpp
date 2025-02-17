@@ -11,6 +11,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <fstream>
+#include <future>
 #include <iostream>
 #include <sstream>
 #include <unordered_set>
@@ -190,14 +191,15 @@ namespace genetic_things {
             return;
         }
 
-        MapObject* temp = _grid[x1][y1];
-        _grid[x1][y1] = _grid[x2][y2];
-        _grid[x1][y1]->x = x1;
-        _grid[x1][y1]->y = y1;
-
-        _grid[x2][y2] = temp;
-        _grid[x2][y2]->x = x2;
-        _grid[x2][y2]->y = y2;
+        std::swap(_grid[x1][y1], _grid[x2][y2]);
+        // MapObject* temp = _grid[x1][y1];
+        // _grid[x1][y1] = _grid[x2][y2];
+        // _grid[x1][y1]->x = x1;
+        // _grid[x1][y1]->y = y1;
+        //
+        // _grid[x2][y2] = temp;
+        // _grid[x2][y2]->x = x2;
+        // _grid[x2][y2]->y = y2;
 
     }
 
