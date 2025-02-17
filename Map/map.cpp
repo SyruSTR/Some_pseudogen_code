@@ -59,7 +59,7 @@ namespace genetic_things {
 
     Map::Map(int width, int height) {
         if (width < 1 || height < 1) {
-            throw std::invalid_argument("width and height must be greater than 0");
+            throw std::out_of_range("width and height must be greater than 0");
         }
         this->_width = width;
         this->_height = height;
