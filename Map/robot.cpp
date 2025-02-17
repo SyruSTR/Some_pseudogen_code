@@ -70,8 +70,8 @@ namespace genetic_things {
 
     void Robot::move(int direction) {
 
-        int check_x = robotXToVector(direction);
-        int check_y = robotYToVector(direction);
+        int check_x = robotXToVector(direction,_4X);
+        int check_y = robotYToVector(direction,_4X);
 
         switch (_map->getObjectType(check_x,check_y)) {
             case WALL:
@@ -88,25 +88,61 @@ namespace genetic_things {
     }
 
 
-    int Robot::robotXToVector(int direction) {
-        direction = direction % 4;
-        if (direction == 0 || direction == 2) return this->x;
-        if (direction == 1) return this->x + 1;
-        if (direction == 3) return this->x - 1;
+    int Robot::robotXToVector(int direction, X_VECTOR x_vector  ) {
+        if (x_vector == _4X) {
+            direction = direction % 4;
+            if (direction == 0 || direction == 2) return this->x;
+            if (direction == 1) return this->x + 1;
+            if (direction == 3) return this->x - 1;
+        }
+        else if (x_vector == _8X) {
+            direction = (direction - 4) % 8;
+            switch (direction) {
+                case 7:
+                case 6:
+                case 5:
+                    return this->x - 1;
+                case 0:
+                case 4:
+                    return this->x;
+                case 1:
+                case 2:
+                case 3:
+                    return this->x+1;
+            }
+        }
         return -1;
     }
 
-    int Robot::robotYToVector(int direction) {
-        direction = direction % 4;
-        if (direction == 0) return this->y + 1;
-        if (direction == 1 || direction == 3) return this->y;
-        if (direction == 2) return this->y - 1;
+    int Robot::robotYToVector(int direction, X_VECTOR x_vector) {
+        if (x_vector == _4X) {
+            direction = direction % 4;
+            if (direction == 0) return this->y + 1;
+            if (direction == 1 || direction == 3) return this->y;
+            if (direction == 2) return this->y - 1;
+        }
+        else if (x_vector == _8X) {
+            direction = (direction - 4) % 8;
+            switch (direction) {
+                case 0:
+                case 1:
+                case 7:
+                    return this->y +1;
+                case 2:
+                case 6:
+                    return this->y;
+                case 3:
+                case 4:
+                case 5:
+                    return this->y-1;
+            }
+        }
         return -1;
     }
 
     int Robot::lookAt(const int direction) {
-        int const check_x = robotXToVector(direction);
-        int const check_y = robotYToVector(direction);
+        int const check_x = robotXToVector(direction,_8X);
+        int const check_y = robotYToVector(direction,_8X);
 
         switch (_map->getObjectType(check_x,check_y)) {
             case WALL:
@@ -123,8 +159,8 @@ namespace genetic_things {
     }
 
     void Robot::kick(int direction) {
-        int const check_x = robotXToVector(direction);
-        int const check_y = robotYToVector(direction);
+        int const check_x = robotXToVector(direction,_8X);
+        int const check_y = robotYToVector(direction,_8X);
 
         switch (_map->getObjectType(check_x,check_y)) {
             case WALL: {

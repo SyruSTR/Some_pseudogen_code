@@ -6,14 +6,15 @@
 
 #include <algorithm>
 #include <fstream>
+#include <unistd.h>
 
 #include "Map/robot.h"
 
 SimulationController::SimulationController(){
   std::cout << "Simulation controller created" << std::endl;
 
-  _map = new genetic_things::Map(50,10);
-  //_map = new genetic_things::Map("../TestMap.txt", "../TestGens.txt");
+  //_map = new genetic_things::Map(50,10);
+  _map = new genetic_things::Map("../TestMap.txt", "../TestGens.txt");
   _robots = _map->getRobots();
 
   for (int i = 0; i < 10; i++) {
@@ -53,7 +54,7 @@ void SimulationController::startSimulation(){
       robot->executeAction();
     }
     deleteDeadRobots();
-    // sleep(1);
+    usleep(100);
     _map->printMap();
   }
 

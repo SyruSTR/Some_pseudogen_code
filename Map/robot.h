@@ -26,6 +26,12 @@
 namespace genetic_things {
   class Robot : public MapObject {
   private:
+
+    enum X_VECTOR {
+      _4X,
+      _8X
+    };
+
     int _id;
 
     //current pointer in
@@ -38,8 +44,8 @@ namespace genetic_things {
     int lookAt(int direction);
     void kick(int direction);
 
-    int robotXToVector(int direction);
-    int robotYToVector(int direction);
+    int robotXToVector(int direction, X_VECTOR x_vector  );
+    int robotYToVector(int direction, X_VECTOR x_vector  );
 
     void validateAndParseGen(std::string &raw_line);
   public:

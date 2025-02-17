@@ -219,19 +219,25 @@ namespace genetic_things {
             for (int x = 0; x < _width; ++x) {
                 //just for safe from SIGSEGV
                 if (_grid[x][y] != nullptr) {
+                    int robot_id = -1;
+                    if (Robot* robot = dynamic_cast<Robot *>(_grid[x][y]))
+                        robot_id = robot->getId();
                     switch (_grid[x][y]->getType()) {
                         case EMPTY:
                             printf("  ");
-                        break;
+                            break;
                         case WALL:
                             printf("# ");
-                        break;
+                            break;
                         case ROBOT:
-                            printf("@ ");
-                        break;
+                            if (robot_id < 10)
+                                printf("%i ",robot_id);
+                            else
+                                printf("%i",robot_id);
+                            break;
                         case FOOD:
                             printf("* ");
-                        break;
+                            break;
                         default:
                             printf("^ ");
                     }
