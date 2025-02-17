@@ -18,7 +18,7 @@ SimulationController::SimulationController(){
   _robots = _map->getRobots();
 
   for (int i = 0; i < 10; i++) {
-    _map->addRobotAtRandomPlace(i);
+    _map->addRobotAtRandomPlace();
   }
 
   for (int i = 0; i < 10; i++) {

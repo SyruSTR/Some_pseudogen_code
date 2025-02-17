@@ -71,10 +71,9 @@ namespace genetic_things {
 
         /**
          *
-         * @param id for new robot
          *
          */
-        void addRobotAtRandomPlace(int id);
+        void addRobotAtRandomPlace();
 
         void addFoodAtRandomPlace();
 

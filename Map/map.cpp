@@ -90,7 +90,7 @@ namespace genetic_things {
         //open gens file
         std::ifstream gens_file(gens_name);
         std::string tmp_gens_line;
-        int robot_id = 0;
+        int robot_id = _robots.size();
 
         for (int y = 0; y < _height; ++y) {
             for (int x = 0; x < _width; ++x) {
@@ -138,9 +138,11 @@ namespace genetic_things {
 
 
 
-    void Map::addRobotAtRandomPlace(int id) {
-        addObjectAtRandomPlace([this, id](int x, int y, Map* map) {
-            return new Robot(x, y, map, id);
+    void Map::addRobotAtRandomPlace() {
+        addObjectAtRandomPlace([this](int x, int y, Map* map) {
+            return new Robot(x, y, map,
+                //next robot id
+                _robots.size());
     });
     }
 
