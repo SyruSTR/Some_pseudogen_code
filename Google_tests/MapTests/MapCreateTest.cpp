@@ -1,3 +1,4 @@
+#include "mapObject.h"
 #include "../../Map/map.h"
 
 #include "gtest/gtest.h"
@@ -12,7 +13,7 @@ class MapCreateTest : public testing::Test {
     }
 };
 
-TEST_F(MapCreateTest, CreateMap) {
+TEST_F(MapCreateTest, CreateEmptyMap) {
   genetic_things::Map *map = new genetic_things::Map(1,1);
   EXPECT_NE(map, nullptr);
   delete map;
@@ -58,4 +59,16 @@ TEST_F(MapCreateTest, Incorrect_height_and_width) {
     FAIL() << "Expected /'width and height must be greater than 0/'";
   }
   delete map;
+}
+
+TEST_F(MapCreateTest, Create_3x3_map_with_borders) {
+  genetic_things::Map *map = new genetic_things::Map(3,3);
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+      if (i == 1 && j == 1) {
+        EXPECT_EQ(map->getObject(i,j)->getType(), genetic_things::EMPTY);
+      }else
+        EXPECT_EQ(map->getObject(i,j)->getType(), genetic_things::WALL);
+    }
+  }
 }
