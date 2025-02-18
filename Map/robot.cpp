@@ -78,7 +78,8 @@ namespace genetic_things {
             case ROBOT:
                 return;
             case FOOD:
-                //todo eat
+                _map->deleteObject(check_x,check_y);
+                this->addHp(FOOD_RESTORE_HP);
                 break;
             default:
                 break;

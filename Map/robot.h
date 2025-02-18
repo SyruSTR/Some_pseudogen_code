@@ -46,6 +46,7 @@ namespace genetic_things {
 
     int robotXToVector(int direction, X_VECTOR x_vector  );
     int robotYToVector(int direction, X_VECTOR x_vector  );
+    int addHp(int hp_count);
 
     void validateAndParseGen(std::string &raw_line);
   public:
