@@ -1,5 +1,13 @@
 # Some_pseudogen_kod
 
+## What will be added
+
+- Change the object class
+  - divide objects on ubreakable and breakable
+  - Maybe rewrite with using patterns
+- Collect statistics on the iterations
+- Add graphics with using SFML
+
 ## Overview
 
 In this system, each number in the gencode corresponds to a specific robot action.
